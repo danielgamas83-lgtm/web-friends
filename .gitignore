@@ -13,3 +13,4 @@ Thumbs.db
 
 # Log
 npm-debug.log*
+.vercel
