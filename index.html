@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WebFriends — Conecta y juega</title>
+  <link rel="stylesheet" href="style.css">
+  </head>
+<body>
+<header class="site-header">
+  <h1>WebFriends</h1>
+  <p>Conecta, juega y comparte con amigos o tu pareja a distancia</p>
+</header>
+
+<main class="container">
+  <aside class="sidebar">
+    <div class="profile">
+      <img src="https://via.placeholder.com/80" alt="avatar">
+      <div>
+        <strong>Tu nombre</strong>
+        <small>En línea</small>
+      </div>
+    </div>
+    <h3>Amigos</h3>
+    <ul class="friends-list">
+      <li class="friend active">Alex <span class="status">•</span></li>
+      <li class="friend">María <span class="status offline">•</span></li>
+    </ul>
+    <small class="hint">Selecciona una sección para empezar</small>
+  </aside>
+
+  <section class="main-area">
+    <nav class="tabs">
+      <button data-tab="chat" class="tab active">Chat</button>
+      <button data-tab="game" class="tab">Tic-Tac-Toe</button>
+      <button data-tab="notes" class="tab">Notas compartidas</button>
+      <button data-tab="media" class="tab">Fotos & Media</button>
+    </nav>
+
+    <section id="chat" class="panel active">
+      <div class="chat-window" id="messages"></div>
+      <form id="chatForm" class="chat-form">
+        <input id="chatInput" placeholder="Escribe un mensaje..." autocomplete="off">
+        <button type="submit">Enviar</button>
+      </form>
+    </section>
+
+    <section id="game" class="panel">
+      <h2>Tic-Tac-Toe</h2>
+      <div class="ttt-board" id="board">
+        <div class="cell" data-index="0"></div>
+        <div class="cell" data-index="1"></div>
+        <div class="cell" data-index="2"></div>
+        <div class="cell" data-index="3"></div>
+        <div class="cell" data-index="4"></div>
+        <div class="cell" data-index="5"></div>
+        <div class="cell" data-index="6"></div>
+        <div class="cell" data-index="7"></div>
+        <div class="cell" data-index="8"></div>
+      </div>
+      <div class="game-controls">
+        <div id="gameStatus">Turno: X</div>
+        <button id="resetGame">Reiniciar</button>
+      </div>
+    </section>
+
+    <section id="notes" class="panel">
+      <h2>Notas compartidas</h2>
+      <textarea id="sharedNotes" placeholder="Escribe algo que ambos vean..."></textarea>
+      <div class="notes-controls">
+        <button id="saveNotes">Guardar</button>
+        <button id="clearNotes">Borrar</button>
+      </div>
+    </section>
+
+    <section id="media" class="panel">
+      <h2>Compartir fotos</h2>
+      <input type="file" id="fileInput" accept="image/*">
+      <div id="preview" class="preview"></div>
+    </section>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <small>Hecho con ♥ para quienes extrañan a sus amigos.</small>
+</footer>
+
+<script src="script.js" defer></script>
+</body>
+</html>
