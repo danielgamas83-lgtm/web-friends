@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function openTab(tabName) {
-    $$(".nav-item").forEach((button) => {
+    $$(".option-item").forEach((button) => {
       button.classList.toggle("active", button.dataset.tab === tabName);
     });
     $$(".panel").forEach((panel) => {
@@ -286,12 +286,6 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#shuffleIdea").addEventListener("click", () => {
     const idea = ideas[Math.floor(Math.random() * ideas.length)];
     $("#ideaTitle").textContent = idea;
-  });
-
-  $("#planButton").addEventListener("click", () => {
-    $("#planTitle").textContent = "Ver algo juntos";
-    $("#planDescription").textContent = "Peguen un video de YouTube, abran el chat y preparen algo rico.";
-    toast("Plan cambiado");
   });
 
   $("#copyRoom").addEventListener("click", async () => {

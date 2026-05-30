@@ -7,239 +7,207 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar" aria-label="Menu principal">
+  <main class="app">
+    <header class="app-header">
       <a class="brand" href="#home" aria-label="WebFriends">
         <span class="brand-icon">WF</span>
         <span>
           <strong>WebFriends</strong>
-          <small>Un lugar para estar cerca</small>
+          <small>Un espacio para estar cerca</small>
         </span>
       </a>
 
-      <section class="couple-card" aria-label="Perfil de la sala">
+      <section class="room-summary" aria-label="Sala de prueba">
         <div class="pair-avatars">
           <span class="avatar">TU</span>
           <span class="avatar avatar-alt">EL</span>
         </div>
         <div>
           <p class="eyebrow">Sala privada</p>
-          <h2>Daniel & Alex</h2>
-          <p>Pruebas de chat, juegos y momentos juntos.</p>
+          <h1>Daniel & Alex</h1>
         </div>
       </section>
+    </header>
 
-      <nav class="side-nav" aria-label="Secciones">
-        <button class="nav-item active" data-tab="home" type="button">Inicio</button>
-        <button class="nav-item" data-tab="chat" type="button">Chat</button>
-        <button class="nav-item" data-tab="watch" type="button">Ver juntos</button>
-        <button class="nav-item" data-tab="game" type="button">Juego</button>
-        <button class="nav-item" data-tab="notes" type="button">Notas</button>
-        <button class="nav-item" data-tab="memories" type="button">Recuerdos</button>
-      </nav>
+    <section class="relationship-card" aria-label="Tiempo juntos">
+      <div class="relationship-copy">
+        <p class="eyebrow">Relacion</p>
+        <h2>Tiempo juntos</h2>
+        <p>Guarden la fecha en que iniciaron su relacion y la app calcula cuanto tiempo llevan.</p>
+      </div>
 
-      <section class="room-card">
-        <p class="eyebrow">Codigo de prueba</p>
-        <strong id="roomCode">WF-2841</strong>
-        <button class="soft-button" id="copyRoom" type="button">Copiar codigo</button>
-      </section>
-    </aside>
-
-    <main class="workspace">
-      <header class="topbar">
-        <div>
-          <p class="eyebrow">Panel de pruebas</p>
-          <h1>Un espacio para hablar, jugar y guardar recuerdos.</h1>
+      <div class="date-card">
+        <label for="relationshipDate">Fecha de inicio</label>
+        <div class="date-row">
+          <input id="relationshipDate" type="date">
+          <button class="soft-button" id="saveDate" type="button">Guardar</button>
         </div>
-        <button class="primary-button" id="planButton" type="button">Nuevo plan</button>
-      </header>
+      </div>
 
-      <section id="home" class="panel active home-panel" aria-label="Inicio">
-        <section class="guide-strip" aria-label="Como usar WebFriends">
-          <article>
-            <span>1</span>
-            <strong>Configuren su fecha</strong>
-            <p>Guarden cuando inicio la relacion para ver el tiempo juntos.</p>
-          </article>
-          <article>
-            <span>2</span>
-            <strong>Elijan que hacer</strong>
-            <p>Chat, video de YouTube, juego, notas o recuerdos.</p>
-          </article>
-          <article>
-            <span>3</span>
-            <strong>Prueben juntos</strong>
-            <p>Por ahora todo se guarda en este navegador mientras se prepara el modo online.</p>
-          </article>
-        </section>
+      <div class="stats-row">
+        <article class="stat-card main-stat">
+          <span>Tiempo juntos</span>
+          <strong id="relationshipTime">Configura la fecha</strong>
+        </article>
+        <article class="stat-card">
+          <span>Racha usando la app</span>
+          <strong id="appStreak">1 dia</strong>
+        </article>
+        <article class="stat-card">
+          <span>Ultima visita</span>
+          <strong id="lastVisit">Hoy</strong>
+        </article>
+      </div>
+    </section>
 
-        <div class="hero-card">
-          <div>
-            <p class="eyebrow">Relacion</p>
-            <h2>Tiempo juntos</h2>
-            <p class="hero-text">El contador se calcula desde la fecha en que iniciaron su relacion.</p>
-          </div>
-
-          <div class="relationship-box">
-            <label for="relationshipDate">Fecha de inicio</label>
-            <div class="date-row">
-              <input id="relationshipDate" type="date">
-              <button class="soft-button" id="saveDate" type="button">Guardar</button>
-            </div>
-          </div>
-
-          <div class="stat-grid">
-            <article class="stat-card big">
-              <span>Tiempo juntos</span>
-              <strong id="relationshipTime">Configura la fecha</strong>
-            </article>
-            <article class="stat-card">
-              <span>Racha usando la app</span>
-              <strong id="appStreak">1 dia</strong>
-            </article>
-            <article class="stat-card">
-              <span>Ultima visita</span>
-              <strong id="lastVisit">Hoy</strong>
-            </article>
-          </div>
+    <section class="workspace">
+      <aside class="activity-menu" aria-label="Opciones">
+        <div class="section-title">
+          <p class="eyebrow">Opciones</p>
+          <h2>Que quieren hacer?</h2>
         </div>
 
-        <section class="quick-grid" aria-label="Acciones rapidas">
-          <button class="quick-card" data-tab="chat" type="button">
-            <span>Chat</span>
-            <strong>Mandar un mensaje</strong>
+        <div class="option-list">
+          <button class="option-item active" data-tab="chat" type="button">
+            <span class="option-dot chat-dot"></span>
+            <span>
+              <strong>Chat</strong>
+              <small>Mensajes de prueba guardados en este navegador.</small>
+            </span>
           </button>
-          <button class="quick-card featured" data-tab="watch" type="button">
-            <span>Ver juntos</span>
-            <strong>Pegar un video de YouTube</strong>
+          <button class="option-item" data-tab="watch" type="button">
+            <span class="option-dot watch-dot"></span>
+            <span>
+              <strong>Ver juntos</strong>
+              <small>Peguen un link de YouTube para verlo en la sala.</small>
+            </span>
           </button>
-          <button class="quick-card" data-tab="game" type="button">
-            <span>Juego</span>
-            <strong>Jugar tres en raya</strong>
+          <button class="option-item" data-tab="game" type="button">
+            <span class="option-dot game-dot"></span>
+            <span>
+              <strong>Juego</strong>
+              <small>Tres en raya para jugar en el mismo dispositivo.</small>
+            </span>
           </button>
-          <button class="quick-card" data-tab="notes" type="button">
-            <span>Notas</span>
-            <strong>Guardar ideas juntos</strong>
+          <button class="option-item" data-tab="notes" type="button">
+            <span class="option-dot notes-dot"></span>
+            <span>
+              <strong>Notas</strong>
+              <small>Planes, peliculas, ideas y frases para guardar.</small>
+            </span>
           </button>
-        </section>
-      </section>
+          <button class="option-item" data-tab="memories" type="button">
+            <span class="option-dot memories-dot"></span>
+            <span>
+              <strong>Recuerdos</strong>
+              <small>Suban una foto de prueba para verla aqui.</small>
+            </span>
+          </button>
+        </div>
 
-      <section id="chat" class="panel" aria-label="Chat">
-        <div class="panel-header">
-          <div>
-            <p class="eyebrow">Conversacion</p>
-            <h2>Chat de prueba</h2>
-          </div>
-          <button class="text-button" id="clearChat" type="button">Limpiar</button>
+        <div class="room-code">
+          <span>Codigo de prueba</span>
+          <strong id="roomCode">WF-2841</strong>
+          <button class="text-button" id="copyRoom" type="button">Copiar</button>
         </div>
-        <div class="chat-window" id="messages" aria-live="polite"></div>
-        <form id="chatForm" class="chat-form">
-          <label class="sr-only" for="chatInput">Mensaje</label>
-          <input id="chatInput" placeholder="Escribe un mensaje..." autocomplete="off">
-          <button class="primary-button" type="submit">Enviar</button>
-        </form>
-      </section>
-
-      <section id="watch" class="panel" aria-label="Ver juntos">
-        <div class="panel-header">
-          <div>
-            <p class="eyebrow">Compartir pantalla simple</p>
-            <h2>Ver YouTube juntos</h2>
-          </div>
-          <span class="pill" id="watchStatus">Sin video</span>
-        </div>
-        <div class="watch-layout">
-          <div class="video-card">
-            <div class="video-frame empty" id="videoFrame">
-              <div>
-                <strong>Pega un link de YouTube</strong>
-                <p>Funciona con enlaces normales, Shorts o youtu.be.</p>
-              </div>
-            </div>
-          </div>
-          <aside class="side-card watch-card">
-            <h3>Video para ver</h3>
-            <p>En esta version de prueba el video no se sincroniza online todavia, pero ya sirve para elegir y mirar desde la sala.</p>
-            <label for="youtubeUrl">Link de YouTube</label>
-            <input id="youtubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=...">
-            <button class="primary-button" id="loadVideo" type="button">Cargar video</button>
-          </aside>
-        </div>
-      </section>
-
-      <section id="game" class="panel" aria-label="Juego">
-        <div class="panel-header">
-          <div>
-            <p class="eyebrow">Actividad</p>
-            <h2>Tres en raya</h2>
-          </div>
-          <span class="pill" id="gameStatus">Turno: X</span>
-        </div>
-        <div class="game-layout">
-          <div class="ttt-board" id="board">
-            <button class="cell" data-index="0" type="button"></button>
-            <button class="cell" data-index="1" type="button"></button>
-            <button class="cell" data-index="2" type="button"></button>
-            <button class="cell" data-index="3" type="button"></button>
-            <button class="cell" data-index="4" type="button"></button>
-            <button class="cell" data-index="5" type="button"></button>
-            <button class="cell" data-index="6" type="button"></button>
-            <button class="cell" data-index="7" type="button"></button>
-            <button class="cell" data-index="8" type="button"></button>
-          </div>
-          <aside class="side-card">
-            <h3>Para pruebas</h3>
-            <p>Por ahora funciona en el mismo dispositivo. Despues se puede conectar online en tiempo real.</p>
-            <button class="soft-button" id="resetGame" type="button">Reiniciar</button>
-          </aside>
-        </div>
-      </section>
-
-      <section id="notes" class="panel" aria-label="Notas">
-        <div class="panel-header">
-          <div>
-            <p class="eyebrow">Compartido</p>
-            <h2>Notas de la relacion</h2>
-          </div>
-          <span class="pill" id="noteSaved">Sin cambios</span>
-        </div>
-        <label class="sr-only" for="sharedNotes">Notas compartidas</label>
-        <textarea id="sharedNotes" placeholder="Peliculas, planes, frases, cosas por hacer..."></textarea>
-        <div class="actions-row">
-          <button class="primary-button" id="saveNotes" type="button">Guardar</button>
-          <button class="text-button" id="clearNotes" type="button">Borrar</button>
-        </div>
-      </section>
-
-      <section id="memories" class="panel" aria-label="Recuerdos">
-        <div class="panel-header">
-          <div>
-            <p class="eyebrow">Fotos</p>
-            <h2>Recuerdos</h2>
-          </div>
-        </div>
-        <label class="upload-box" for="fileInput">
-          <strong>Subir una foto de prueba</strong>
-          <span>Se mostrara solo en este navegador por ahora.</span>
-          <input type="file" id="fileInput" accept="image/*">
-        </label>
-        <div id="preview" class="preview"></div>
-      </section>
-
-      <aside class="bottom-board" aria-label="Plan actual">
-        <section>
-          <p class="eyebrow">Proximo plan</p>
-          <h2 id="planTitle">Noche de pelicula</h2>
-          <p id="planDescription">Elijan una hora, una pelicula y algo rico para acompanar.</p>
-        </section>
-        <section>
-          <p class="eyebrow">Idea rapida</p>
-          <h2 id="ideaTitle">Preguntas random</h2>
-          <button class="soft-button" id="shuffleIdea" type="button">Cambiar idea</button>
-        </section>
       </aside>
-    </main>
-  </div>
+
+      <section class="activity-panel">
+        <section id="chat" class="panel active" aria-label="Chat">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Conversacion</p>
+              <h2>Chat de prueba</h2>
+            </div>
+            <button class="text-button" id="clearChat" type="button">Limpiar</button>
+          </div>
+          <div class="chat-window" id="messages" aria-live="polite"></div>
+          <form id="chatForm" class="chat-form">
+            <label class="sr-only" for="chatInput">Mensaje</label>
+            <input id="chatInput" placeholder="Escribe un mensaje..." autocomplete="off">
+            <button class="primary-button" type="submit">Enviar</button>
+          </form>
+        </section>
+
+        <section id="watch" class="panel" aria-label="Ver juntos">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Video compartido</p>
+              <h2>Ver YouTube juntos</h2>
+            </div>
+            <span class="pill" id="watchStatus">Sin video</span>
+          </div>
+          <div class="video-frame empty" id="videoFrame">
+            <div>
+              <strong>Pega un link de YouTube</strong>
+              <p>Sirven enlaces normales, Shorts o youtu.be.</p>
+            </div>
+          </div>
+          <div class="video-tools">
+            <label class="sr-only" for="youtubeUrl">Link de YouTube</label>
+            <input id="youtubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=...">
+            <button class="primary-button" id="loadVideo" type="button">Cargar</button>
+          </div>
+        </section>
+
+        <section id="game" class="panel" aria-label="Juego">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Actividad</p>
+              <h2>Tres en raya</h2>
+            </div>
+            <span class="pill" id="gameStatus">Turno: X</span>
+          </div>
+          <div class="game-area">
+            <div class="ttt-board" id="board">
+              <button class="cell" data-index="0" type="button"></button>
+              <button class="cell" data-index="1" type="button"></button>
+              <button class="cell" data-index="2" type="button"></button>
+              <button class="cell" data-index="3" type="button"></button>
+              <button class="cell" data-index="4" type="button"></button>
+              <button class="cell" data-index="5" type="button"></button>
+              <button class="cell" data-index="6" type="button"></button>
+              <button class="cell" data-index="7" type="button"></button>
+              <button class="cell" data-index="8" type="button"></button>
+            </div>
+            <p class="panel-note">Por ahora funciona en el mismo dispositivo. Despues puede conectarse online.</p>
+            <button class="soft-button" id="resetGame" type="button">Reiniciar partida</button>
+          </div>
+        </section>
+
+        <section id="notes" class="panel" aria-label="Notas">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Compartido</p>
+              <h2>Notas de la relacion</h2>
+            </div>
+            <span class="pill" id="noteSaved">Sin cambios</span>
+          </div>
+          <label class="sr-only" for="sharedNotes">Notas compartidas</label>
+          <textarea id="sharedNotes" placeholder="Peliculas, planes, frases, cosas por hacer..."></textarea>
+          <div class="actions-row">
+            <button class="primary-button" id="saveNotes" type="button">Guardar</button>
+            <button class="text-button" id="clearNotes" type="button">Borrar</button>
+          </div>
+        </section>
+
+        <section id="memories" class="panel" aria-label="Recuerdos">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Fotos</p>
+              <h2>Recuerdos</h2>
+            </div>
+          </div>
+          <label class="upload-box" for="fileInput">
+            <strong>Subir una foto de prueba</strong>
+            <span>Se mostrara solo en este navegador por ahora.</span>
+            <input type="file" id="fileInput" accept="image/*">
+          </label>
+          <div id="preview" class="preview"></div>
+        </section>
+      </section>
+    </section>
+  </main>
 
   <script src="script.js" defer></script>
 </body>
