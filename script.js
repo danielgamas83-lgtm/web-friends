@@ -2,88 +2,116 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => Array.from(document.querySelectorAll(selector));
 
-  const storage = {
+  const keys = {
     messages: "wf_messages",
     notes: "wf_notes",
-    mood: "wf_mood",
-    startedAt: "wf_started_at"
+    relationshipDate: "wf_relationship_date",
+    firstVisit: "wf_first_visit",
+    lastVisit: "wf_last_visit",
+    appStreak: "wf_app_streak"
   };
 
-  if (!localStorage.getItem(storage.startedAt)) {
-    localStorage.setItem(storage.startedAt, String(Date.now()));
+  const todayKey = new Date().toISOString().slice(0, 10);
+
+  function toast(text) {
+    let node = $(".toast");
+    if (!node) {
+      node = document.createElement("div");
+      node.className = "toast";
+      node.setAttribute("role", "status");
+      document.body.appendChild(node);
+    }
+    node.textContent = text;
+    node.classList.add("show");
+    window.setTimeout(() => node.classList.remove("show"), 1600);
   }
 
-  const showToast = (text) => {
-    let toast = $(".toast");
-    if (!toast) {
-      toast = document.createElement("div");
-      toast.className = "toast";
-      toast.setAttribute("role", "status");
-      document.body.appendChild(toast);
-    }
-
-    toast.textContent = text;
-    toast.classList.add("show");
-    window.setTimeout(() => toast.classList.remove("show"), 1600);
-  };
-
-  const addToastStyles = () => {
-    const style = document.createElement("style");
-    style.textContent = `
-      .toast {
-        position: fixed;
-        left: 50%;
-        bottom: 24px;
-        z-index: 20;
-        transform: translate(-50%, 16px);
-        min-height: 42px;
-        display: grid;
-        place-items: center;
-        padding: 0 16px;
-        border-radius: 8px;
-        background: #172026;
-        color: #fff;
-        box-shadow: 0 16px 40px rgba(23, 32, 38, 0.22);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 180ms ease, transform 180ms ease;
-      }
-      .toast.show {
-        opacity: 1;
-        transform: translate(-50%, 0);
-      }
-    `;
-    document.head.appendChild(style);
-  };
-  addToastStyles();
-
-  $$(".tab").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      $$(".tab").forEach((tab) => tab.classList.remove("active"));
-      $$(".panel").forEach((panel) => panel.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById(btn.dataset.tab).classList.add("active");
+  function openTab(tabName) {
+    $$(".nav-item").forEach((button) => {
+      button.classList.toggle("active", button.dataset.tab === tabName);
     });
+    $$(".panel").forEach((panel) => {
+      panel.classList.toggle("active", panel.id === tabName);
+    });
+  }
+
+  $$("[data-tab]").forEach((button) => {
+    button.addEventListener("click", () => openTab(button.dataset.tab));
   });
 
-  const messagesEl = $("#messages");
-  const chatForm = $("#chatForm");
-  const chatInput = $("#chatInput");
-  const clearChat = $("#clearChat");
+  function daysBetween(start, end) {
+    const startDate = new Date(`${start}T00:00:00`);
+    const endDate = new Date(`${end}T00:00:00`);
+    return Math.max(0, Math.floor((endDate - startDate) / 86400000));
+  }
 
-  let messages = JSON.parse(localStorage.getItem(storage.messages) || "[]");
+  function formatRelationship(dateValue) {
+    if (!dateValue) return "Configura la fecha";
+    const days = daysBetween(dateValue, todayKey);
+    const years = Math.floor(days / 365);
+    const months = Math.floor((days % 365) / 30);
+    const restDays = (days % 365) % 30;
+
+    if (years > 0) return `${years} año${years === 1 ? "" : "s"}, ${months} mes${months === 1 ? "" : "es"}`;
+    if (months > 0) return `${months} mes${months === 1 ? "" : "es"}, ${restDays} dia${restDays === 1 ? "" : "s"}`;
+    return `${days} dia${days === 1 ? "" : "s"}`;
+  }
+
+  function updateAppStreak() {
+    if (!localStorage.getItem(keys.firstVisit)) {
+      localStorage.setItem(keys.firstVisit, todayKey);
+    }
+
+    const lastVisit = localStorage.getItem(keys.lastVisit);
+    let streak = Number(localStorage.getItem(keys.appStreak) || "1");
+
+    if (lastVisit && lastVisit !== todayKey) {
+      const gap = daysBetween(lastVisit, todayKey);
+      streak = gap === 1 ? streak + 1 : 1;
+    }
+
+    localStorage.setItem(keys.lastVisit, todayKey);
+    localStorage.setItem(keys.appStreak, String(streak));
+    $("#appStreak").textContent = `${streak} dia${streak === 1 ? "" : "s"}`;
+    $("#lastVisit").textContent = lastVisit && lastVisit !== todayKey ? "Hoy de nuevo" : "Hoy";
+  }
+
+  const dateInput = $("#relationshipDate");
+  const savedDate = localStorage.getItem(keys.relationshipDate);
+  if (savedDate) dateInput.value = savedDate;
+  $("#relationshipTime").textContent = formatRelationship(savedDate);
+  updateAppStreak();
+
+  function saveRelationshipDate() {
+    if (!dateInput.value) {
+      toast("Elige una fecha primero");
+      return;
+    }
+    localStorage.setItem(keys.relationshipDate, dateInput.value);
+    $("#relationshipTime").textContent = formatRelationship(dateInput.value);
+  }
+
+  dateInput.addEventListener("change", saveRelationshipDate);
+
+  $("#saveDate").addEventListener("click", () => {
+    saveRelationshipDate();
+    toast("Fecha guardada");
+  });
+
+  let messages = JSON.parse(localStorage.getItem(keys.messages) || "[]");
   if (messages.length === 0) {
     messages = [
-      { text: "Sala creada. Empiecen con un mensaje, una nota o una partida.", type: "system", t: Date.now() },
-      { text: "Estoy conectado. Que hacemos primero?", you: false, t: Date.now() + 1 }
+      { text: "Sala lista para pruebas. Todavia no es online en tiempo real.", type: "system" },
+      { text: "Hola, ya estoy aqui. Que hacemos primero?", you: false }
     ];
   }
 
-  function persistMessages() {
-    localStorage.setItem(storage.messages, JSON.stringify(messages));
+  function saveMessages() {
+    localStorage.setItem(keys.messages, JSON.stringify(messages));
   }
 
   function renderMessages() {
+    const messagesEl = $("#messages");
     messagesEl.innerHTML = "";
     messages.forEach((message) => {
       const node = document.createElement("div");
@@ -98,26 +126,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderMessages();
 
-  chatForm.addEventListener("submit", (event) => {
+  $("#chatForm").addEventListener("submit", (event) => {
     event.preventDefault();
-    const text = chatInput.value.trim();
+    const input = $("#chatInput");
+    const text = input.value.trim();
     if (!text) return;
-
-    messages.push({ text, you: true, t: Date.now() });
-    persistMessages();
-    chatInput.value = "";
+    messages.push({ text, you: true });
+    saveMessages();
+    input.value = "";
     renderMessages();
   });
 
-  clearChat.addEventListener("click", () => {
-    messages = [{ text: "Chat limpio. La sala sigue abierta.", type: "system", t: Date.now() }];
-    persistMessages();
+  $("#clearChat").addEventListener("click", () => {
+    messages = [{ text: "Chat limpio para una nueva prueba.", type: "system" }];
+    saveMessages();
     renderMessages();
   });
 
   const cells = $$(".cell");
-  const statusEl = $("#gameStatus");
-  const resetBtn = $("#resetGame");
   const wins = [
     [0, 1, 2],
     [3, 4, 5],
@@ -128,24 +154,21 @@ document.addEventListener("DOMContentLoaded", () => {
     [0, 4, 8],
     [2, 4, 6]
   ];
-
   let board = Array(9).fill("");
   let current = "X";
   let winner = null;
 
-  function checkWinner() {
+  function getWinner() {
     for (const [a, b, c] of wins) {
-      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        return board[a];
-      }
+      if (board[a] && board[a] === board[b] && board[a] === board[c]) return board[a];
     }
     return board.every(Boolean) ? "draw" : null;
   }
 
-  function updateStatus() {
-    if (winner === "draw") statusEl.textContent = "Empate";
-    else if (winner) statusEl.textContent = `${winner} gana`;
-    else statusEl.textContent = `Turno: ${current}`;
+  function updateGameStatus() {
+    if (winner === "draw") $("#gameStatus").textContent = "Empate";
+    else if (winner) $("#gameStatus").textContent = `${winner} gana`;
+    else $("#gameStatus").textContent = `Turno: ${current}`;
   }
 
   function resetGame() {
@@ -156,135 +179,78 @@ document.addEventListener("DOMContentLoaded", () => {
       cell.textContent = "";
       cell.disabled = false;
     });
-    updateStatus();
+    updateGameStatus();
   }
 
   cells.forEach((cell) => {
     cell.addEventListener("click", () => {
       const index = Number(cell.dataset.index);
       if (board[index] || winner) return;
-
       board[index] = current;
       cell.textContent = current;
-      winner = checkWinner();
-
-      if (winner) {
-        cells.forEach((item) => {
-          item.disabled = true;
-        });
-      } else {
-        current = current === "X" ? "O" : "X";
-      }
-
-      updateStatus();
+      winner = getWinner();
+      if (winner) cells.forEach((item) => { item.disabled = true; });
+      else current = current === "X" ? "O" : "X";
+      updateGameStatus();
     });
   });
 
-  resetBtn.addEventListener("click", resetGame);
-  updateStatus();
+  $("#resetGame").addEventListener("click", resetGame);
+  updateGameStatus();
 
-  const notesEl = $("#sharedNotes");
-  const saveNotes = $("#saveNotes");
-  const clearNotes = $("#clearNotes");
-  const noteSaved = $("#noteSaved");
-
-  notesEl.value = localStorage.getItem(storage.notes) || "";
-  notesEl.addEventListener("input", () => {
-    noteSaved.textContent = "Sin guardar";
+  const notes = $("#sharedNotes");
+  notes.value = localStorage.getItem(keys.notes) || "";
+  notes.addEventListener("input", () => {
+    $("#noteSaved").textContent = "Sin guardar";
+  });
+  $("#saveNotes").addEventListener("click", () => {
+    localStorage.setItem(keys.notes, notes.value);
+    $("#noteSaved").textContent = "Guardado";
+    toast("Notas guardadas");
+  });
+  $("#clearNotes").addEventListener("click", () => {
+    notes.value = "";
+    localStorage.removeItem(keys.notes);
+    $("#noteSaved").textContent = "Sin cambios";
   });
 
-  saveNotes.addEventListener("click", () => {
-    localStorage.setItem(storage.notes, notesEl.value);
-    noteSaved.textContent = "Guardado";
-    showToast("Nota guardada");
-  });
-
-  clearNotes.addEventListener("click", () => {
-    notesEl.value = "";
-    localStorage.removeItem(storage.notes);
-    noteSaved.textContent = "Sin cambios";
-  });
-
-  const fileInput = $("#fileInput");
-  const preview = $("#preview");
-
-  fileInput.addEventListener("change", () => {
-    const file = fileInput.files && fileInput.files[0];
+  $("#fileInput").addEventListener("change", () => {
+    const file = $("#fileInput").files && $("#fileInput").files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = (event) => {
-      preview.innerHTML = "";
-      const img = document.createElement("img");
-      img.src = event.target.result;
-      img.alt = "Recuerdo cargado";
-      preview.appendChild(img);
+      $("#preview").innerHTML = `<img src="${event.target.result}" alt="Recuerdo cargado">`;
     };
     reader.readAsDataURL(file);
   });
 
   const ideas = [
-    "Hacer una playlist para la semana",
-    "Contar lo mejor del dia en 2 minutos",
-    "Elegir una pelicula sin discutir genero",
-    "Dibujar algo y mandarlo por foto",
-    "Jugar piedra, papel o tijera por chat",
-    "Planear una visita futura"
+    "Responder 5 preguntas sobre el dia",
+    "Elegir una cancion para escuchar juntos",
+    "Hacer una lista de peliculas",
+    "Jugar una partida rapida",
+    "Escribir una nota bonita",
+    "Planear la proxima visita"
   ];
 
   $("#shuffleIdea").addEventListener("click", () => {
-    const list = $("#ideaList");
-    const next = ideas[Math.floor(Math.random() * ideas.length)];
-    const item = document.createElement("li");
-    item.textContent = next;
-    list.prepend(item);
-    while (list.children.length > 3) list.lastElementChild.remove();
+    const idea = ideas[Math.floor(Math.random() * ideas.length)];
+    $("#ideaTitle").textContent = idea;
   });
 
-  $$(".mood").forEach((button) => {
-    button.addEventListener("click", () => {
-      $$(".mood").forEach((item) => item.classList.remove("active"));
-      button.classList.add("active");
-      $("#moodOutput").textContent = button.dataset.mood;
-      localStorage.setItem(storage.mood, button.dataset.mood);
-    });
+  $("#planButton").addEventListener("click", () => {
+    $("#planTitle").textContent = "Plan de prueba";
+    $("#planDescription").textContent = "Elijan una actividad sencilla y prueben si esta seccion les sirve.";
+    toast("Plan cambiado");
   });
-
-  const savedMood = localStorage.getItem(storage.mood);
-  if (savedMood) {
-    const moodButton = $(`.mood[data-mood="${savedMood}"]`);
-    if (moodButton) moodButton.click();
-  }
 
   $("#copyRoom").addEventListener("click", async () => {
     const code = $("#roomCode").textContent;
     try {
       await navigator.clipboard.writeText(code);
-      showToast("Codigo copiado");
+      toast("Codigo copiado");
     } catch {
-      showToast(code);
+      toast(code);
     }
   });
-
-  $("#startCall").addEventListener("click", () => {
-    showToast("La llamada se puede conectar aqui despues");
-  });
-
-  $("#planButton").addEventListener("click", () => {
-    $("#planTitle").textContent = "Plan nuevo";
-    $("#planDescription").textContent = "Elijan hora, actividad y quien prepara la sorpresa.";
-    showToast("Plan actualizado");
-  });
-
-  function updateTogetherTime() {
-    const startedAt = Number(localStorage.getItem(storage.startedAt));
-    const diff = Math.max(0, Date.now() - startedAt);
-    const minutes = Math.floor(diff / 60000);
-    const hours = Math.floor(minutes / 60);
-    const rest = minutes % 60;
-    $("#togetherTime").textContent = `${String(hours).padStart(2, "0")}:${String(rest).padStart(2, "0")}`;
-  }
-
-  updateTogetherTime();
-  window.setInterval(updateTogetherTime, 30000);
 });
