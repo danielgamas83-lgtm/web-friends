@@ -253,6 +253,47 @@ button {
   gap: 18px;
 }
 
+.guide-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.guide-strip article {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 10px;
+  align-items: start;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 14px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(90, 55, 45, 0.07);
+}
+
+.guide-strip span {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #fff0f4;
+  color: var(--rose-dark);
+  font-weight: 900;
+  grid-row: span 2;
+}
+
+.guide-strip strong {
+  font-size: 0.98rem;
+}
+
+.guide-strip p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
 .hero-card {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 330px;
@@ -363,7 +404,7 @@ textarea:focus {
 
 .quick-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
 }
 
@@ -391,6 +432,11 @@ textarea:focus {
 
 .quick-card strong {
   font-size: 1.2rem;
+}
+
+.quick-card.featured {
+  border-color: rgba(219, 111, 132, 0.35);
+  background: linear-gradient(135deg, #ffffff 0%, #fff0f4 100%);
 }
 
 .panel-header {
@@ -454,6 +500,57 @@ textarea:focus {
   display: grid;
   grid-template-columns: minmax(260px, 420px) minmax(220px, 1fr);
   gap: 18px;
+}
+
+.watch-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 18px;
+  align-items: start;
+}
+
+.video-card {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 12px;
+  background: #fffaf7;
+}
+
+.video-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #2b2524;
+}
+
+.video-frame.empty {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: #fff;
+  text-align: center;
+}
+
+.video-frame.empty p {
+  margin: 8px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.video-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.watch-card {
+  display: grid;
+  gap: 12px;
+}
+
+.watch-card label {
+  color: var(--muted);
+  font-weight: 900;
 }
 
 .ttt-board {
@@ -609,7 +706,7 @@ textarea:focus {
   }
 
   .side-nav {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 
   .nav-item {
@@ -632,6 +729,8 @@ textarea:focus {
   .stat-grid,
   .quick-grid,
   .game-layout,
+  .guide-strip,
+  .watch-layout,
   .bottom-board,
   .sidebar {
     grid-template-columns: 1fr;

@@ -32,6 +32,7 @@
       <nav class="side-nav" aria-label="Secciones">
         <button class="nav-item active" data-tab="home" type="button">Inicio</button>
         <button class="nav-item" data-tab="chat" type="button">Chat</button>
+        <button class="nav-item" data-tab="watch" type="button">Ver juntos</button>
         <button class="nav-item" data-tab="game" type="button">Juego</button>
         <button class="nav-item" data-tab="notes" type="button">Notas</button>
         <button class="nav-item" data-tab="memories" type="button">Recuerdos</button>
@@ -54,6 +55,24 @@
       </header>
 
       <section id="home" class="panel active home-panel" aria-label="Inicio">
+        <section class="guide-strip" aria-label="Como usar WebFriends">
+          <article>
+            <span>1</span>
+            <strong>Configuren su fecha</strong>
+            <p>Guarden cuando inicio la relacion para ver el tiempo juntos.</p>
+          </article>
+          <article>
+            <span>2</span>
+            <strong>Elijan que hacer</strong>
+            <p>Chat, video de YouTube, juego, notas o recuerdos.</p>
+          </article>
+          <article>
+            <span>3</span>
+            <strong>Prueben juntos</strong>
+            <p>Por ahora todo se guarda en este navegador mientras se prepara el modo online.</p>
+          </article>
+        </section>
+
         <div class="hero-card">
           <div>
             <p class="eyebrow">Relacion</p>
@@ -90,6 +109,10 @@
             <span>Chat</span>
             <strong>Mandar un mensaje</strong>
           </button>
+          <button class="quick-card featured" data-tab="watch" type="button">
+            <span>Ver juntos</span>
+            <strong>Pegar un video de YouTube</strong>
+          </button>
           <button class="quick-card" data-tab="game" type="button">
             <span>Juego</span>
             <strong>Jugar tres en raya</strong>
@@ -115,6 +138,33 @@
           <input id="chatInput" placeholder="Escribe un mensaje..." autocomplete="off">
           <button class="primary-button" type="submit">Enviar</button>
         </form>
+      </section>
+
+      <section id="watch" class="panel" aria-label="Ver juntos">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Compartir pantalla simple</p>
+            <h2>Ver YouTube juntos</h2>
+          </div>
+          <span class="pill" id="watchStatus">Sin video</span>
+        </div>
+        <div class="watch-layout">
+          <div class="video-card">
+            <div class="video-frame empty" id="videoFrame">
+              <div>
+                <strong>Pega un link de YouTube</strong>
+                <p>Funciona con enlaces normales, Shorts o youtu.be.</p>
+              </div>
+            </div>
+          </div>
+          <aside class="side-card watch-card">
+            <h3>Video para ver</h3>
+            <p>En esta version de prueba el video no se sincroniza online todavia, pero ya sirve para elegir y mirar desde la sala.</p>
+            <label for="youtubeUrl">Link de YouTube</label>
+            <input id="youtubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=...">
+            <button class="primary-button" id="loadVideo" type="button">Cargar video</button>
+          </aside>
+        </div>
       </section>
 
       <section id="game" class="panel" aria-label="Juego">

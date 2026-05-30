@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
     relationshipDate: "wf_relationship_date",
     firstVisit: "wf_first_visit",
     lastVisit: "wf_last_visit",
-    appStreak: "wf_app_streak"
+    appStreak: "wf_app_streak",
+    youtubeUrl: "wf_youtube_url"
   };
 
   const todayKey = new Date().toISOString().slice(0, 10);
@@ -143,6 +144,55 @@ document.addEventListener("DOMContentLoaded", () => {
     renderMessages();
   });
 
+  function getYoutubeId(value) {
+    if (!value) return null;
+
+    try {
+      const url = new URL(value.trim());
+      const host = url.hostname.replace("www.", "");
+
+      if (host === "youtu.be") {
+        return url.pathname.split("/").filter(Boolean)[0] || null;
+      }
+
+      if (host === "youtube.com" || host === "m.youtube.com") {
+        if (url.pathname === "/watch") return url.searchParams.get("v");
+        if (url.pathname.startsWith("/shorts/")) return url.pathname.split("/")[2] || null;
+        if (url.pathname.startsWith("/embed/")) return url.pathname.split("/")[2] || null;
+      }
+    } catch {
+      return null;
+    }
+
+    return null;
+  }
+
+  function loadYoutubeVideo(url) {
+    const id = getYoutubeId(url);
+    const frame = $("#videoFrame");
+
+    if (!id) {
+      $("#watchStatus").textContent = "Link no valido";
+      toast("Pega un link valido de YouTube");
+      return;
+    }
+
+    localStorage.setItem(keys.youtubeUrl, url);
+    frame.classList.remove("empty");
+    frame.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}" title="Video de YouTube compartido" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+    $("#watchStatus").textContent = "Video listo";
+  }
+
+  const savedYoutubeUrl = localStorage.getItem(keys.youtubeUrl);
+  if (savedYoutubeUrl) {
+    $("#youtubeUrl").value = savedYoutubeUrl;
+    loadYoutubeVideo(savedYoutubeUrl);
+  }
+
+  $("#loadVideo").addEventListener("click", () => {
+    loadYoutubeVideo($("#youtubeUrl").value);
+  });
+
   const cells = $$(".cell");
   const wins = [
     [0, 1, 2],
@@ -239,8 +289,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $("#planButton").addEventListener("click", () => {
-    $("#planTitle").textContent = "Plan de prueba";
-    $("#planDescription").textContent = "Elijan una actividad sencilla y prueben si esta seccion les sirve.";
+    $("#planTitle").textContent = "Ver algo juntos";
+    $("#planDescription").textContent = "Peguen un video de YouTube, abran el chat y preparen algo rico.";
     toast("Plan cambiado");
   });
 
