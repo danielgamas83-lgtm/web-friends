@@ -2,89 +2,214 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>WebFriends — Conecta y juega</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WebFriends | Sala compartida</title>
   <link rel="stylesheet" href="style.css">
-  </head>
+</head>
 <body>
-<header class="site-header">
-  <h1>WebFriends</h1>
-  <p>Conecta, juega y comparte con amigos o tu pareja a distancia</p>
-</header>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Personas y espacios">
+      <a class="brand" href="#chat" aria-label="WebFriends inicio">
+        <span class="brand-mark">WF</span>
+        <span>
+          <strong>WebFriends</strong>
+          <small>Tu sala a distancia</small>
+        </span>
+      </a>
 
-<main class="container">
-  <aside class="sidebar">
-    <div class="profile">
-      <img src="https://via.placeholder.com/80" alt="avatar">
-      <div>
-        <strong>Tu nombre</strong>
-        <small>En línea</small>
-      </div>
-    </div>
-    <h3>Amigos</h3>
-    <ul class="friends-list">
-      <li class="friend active">Alex <span class="status">•</span></li>
-      <li class="friend">María <span class="status offline">•</span></li>
-    </ul>
-    <small class="hint">Selecciona una sección para empezar</small>
-  </aside>
+      <section class="profile-card" aria-label="Perfil">
+        <div class="avatar avatar-you">DG</div>
+        <div>
+          <p class="eyebrow">Conectado como</p>
+          <h2>Daniel</h2>
+          <span class="presence online">En linea</span>
+        </div>
+      </section>
 
-  <section class="main-area">
-    <nav class="tabs">
-      <button data-tab="chat" class="tab active">Chat</button>
-      <button data-tab="game" class="tab">Tic-Tac-Toe</button>
-      <button data-tab="notes" class="tab">Notas compartidas</button>
-      <button data-tab="media" class="tab">Fotos & Media</button>
-    </nav>
+      <section class="side-section" aria-label="Contactos">
+        <div class="section-heading">
+          <h3>Personas</h3>
+          <button class="icon-button" type="button" title="Agregar persona" aria-label="Agregar persona">+</button>
+        </div>
+        <button class="person active" type="button">
+          <span class="avatar avatar-small">AL</span>
+          <span>
+            <strong>Alex</strong>
+            <small>Listo para jugar</small>
+          </span>
+          <span class="dot active-dot" aria-label="En linea"></span>
+        </button>
+        <button class="person" type="button">
+          <span class="avatar avatar-small alt">MA</span>
+          <span>
+            <strong>Maria</strong>
+            <small>Vuelve a las 8:30</small>
+          </span>
+          <span class="dot away-dot" aria-label="Ausente"></span>
+        </button>
+      </section>
 
-    <section id="chat" class="panel active">
-      <div class="chat-window" id="messages"></div>
-      <form id="chatForm" class="chat-form">
-        <input id="chatInput" placeholder="Escribe un mensaje..." autocomplete="off">
-        <button type="submit">Enviar</button>
-      </form>
-    </section>
+      <section class="room-card" aria-label="Codigo de sala">
+        <p class="eyebrow">Codigo de sala</p>
+        <div class="room-code" id="roomCode">WF-2841</div>
+        <button class="secondary-button" id="copyRoom" type="button">Copiar codigo</button>
+      </section>
+    </aside>
 
-    <section id="game" class="panel">
-      <h2>Tic-Tac-Toe</h2>
-      <div class="ttt-board" id="board">
-        <div class="cell" data-index="0"></div>
-        <div class="cell" data-index="1"></div>
-        <div class="cell" data-index="2"></div>
-        <div class="cell" data-index="3"></div>
-        <div class="cell" data-index="4"></div>
-        <div class="cell" data-index="5"></div>
-        <div class="cell" data-index="6"></div>
-        <div class="cell" data-index="7"></div>
-        <div class="cell" data-index="8"></div>
-      </div>
-      <div class="game-controls">
-        <div id="gameStatus">Turno: X</div>
-        <button id="resetGame">Reiniciar</button>
-      </div>
-    </section>
+    <main class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Sala activa</p>
+          <h1>Conectarse, hablar y hacer algo juntos</h1>
+        </div>
+        <div class="top-actions" aria-label="Acciones rapidas">
+          <button class="secondary-button" id="startCall" type="button">Iniciar llamada</button>
+          <button class="primary-button" id="planButton" type="button">Crear plan</button>
+        </div>
+      </header>
 
-    <section id="notes" class="panel">
-      <h2>Notas compartidas</h2>
-      <textarea id="sharedNotes" placeholder="Escribe algo que ambos vean..."></textarea>
-      <div class="notes-controls">
-        <button id="saveNotes">Guardar</button>
-        <button id="clearNotes">Borrar</button>
-      </div>
-    </section>
+      <section class="hero-panel" aria-label="Resumen de conexion">
+        <div class="hero-copy">
+          <p class="eyebrow">Hoy en la sala</p>
+          <h2>Una noche compartida, aunque cada quien este lejos.</h2>
+          <p>Guarden notas, manden mensajes, jueguen una partida rapida y preparen el proximo momento juntos.</p>
+        </div>
+        <div class="connection-stats" aria-label="Estado de la sala">
+          <div>
+            <span>Tiempo juntos</span>
+            <strong id="togetherTime">00:00</strong>
+          </div>
+          <div>
+            <span>Racha</span>
+            <strong>12 dias</strong>
+          </div>
+          <div>
+            <span>Actividad</span>
+            <strong>Juego listo</strong>
+          </div>
+        </div>
+      </section>
 
-    <section id="media" class="panel">
-      <h2>Compartir fotos</h2>
-      <input type="file" id="fileInput" accept="image/*">
-      <div id="preview" class="preview"></div>
-    </section>
-  </section>
-</main>
+      <nav class="tabs" aria-label="Secciones">
+        <button data-tab="chat" class="tab active" type="button">Chat</button>
+        <button data-tab="game" class="tab" type="button">Juego</button>
+        <button data-tab="notes" class="tab" type="button">Notas</button>
+        <button data-tab="memories" class="tab" type="button">Recuerdos</button>
+      </nav>
 
-<footer class="site-footer">
-  <small>Hecho con ♥ para quienes extrañan a sus amigos.</small>
-</footer>
+      <section class="content-grid">
+        <div class="primary-column">
+          <section id="chat" class="panel active" aria-label="Chat">
+            <div class="panel-title">
+              <div>
+                <p class="eyebrow">Conversacion</p>
+                <h2>Chat de la sala</h2>
+              </div>
+              <button class="ghost-button" id="clearChat" type="button">Limpiar</button>
+            </div>
+            <div class="chat-window" id="messages" aria-live="polite"></div>
+            <form id="chatForm" class="chat-form">
+              <label class="sr-only" for="chatInput">Mensaje</label>
+              <input id="chatInput" placeholder="Escribe algo para esta sala..." autocomplete="off">
+              <button class="primary-button" type="submit">Enviar</button>
+            </form>
+          </section>
 
-<script src="script.js" defer></script>
+          <section id="game" class="panel" aria-label="Juego de tres en raya">
+            <div class="panel-title">
+              <div>
+                <p class="eyebrow">Actividad rapida</p>
+                <h2>Tres en raya</h2>
+              </div>
+              <div id="gameStatus" class="status-pill">Turno: X</div>
+            </div>
+            <div class="game-layout">
+              <div class="ttt-board" id="board" aria-label="Tablero">
+                <button class="cell" data-index="0" type="button"></button>
+                <button class="cell" data-index="1" type="button"></button>
+                <button class="cell" data-index="2" type="button"></button>
+                <button class="cell" data-index="3" type="button"></button>
+                <button class="cell" data-index="4" type="button"></button>
+                <button class="cell" data-index="5" type="button"></button>
+                <button class="cell" data-index="6" type="button"></button>
+                <button class="cell" data-index="7" type="button"></button>
+                <button class="cell" data-index="8" type="button"></button>
+              </div>
+              <div class="activity-card">
+                <h3>Modo tranquilo</h3>
+                <p>Jueguen por turnos en la misma sala. Mas adelante esto puede conectarse en tiempo real.</p>
+                <button class="secondary-button" id="resetGame" type="button">Reiniciar partida</button>
+              </div>
+            </div>
+          </section>
+
+          <section id="notes" class="panel" aria-label="Notas compartidas">
+            <div class="panel-title">
+              <div>
+                <p class="eyebrow">Para no olvidar</p>
+                <h2>Notas compartidas</h2>
+              </div>
+              <span id="noteSaved" class="save-state">Sin cambios</span>
+            </div>
+            <label class="sr-only" for="sharedNotes">Notas compartidas</label>
+            <textarea id="sharedNotes" placeholder="Ideas, pendientes, promesas, peliculas por ver..."></textarea>
+            <div class="notes-controls">
+              <button class="primary-button" id="saveNotes" type="button">Guardar nota</button>
+              <button class="ghost-button" id="clearNotes" type="button">Borrar</button>
+            </div>
+          </section>
+
+          <section id="memories" class="panel" aria-label="Recuerdos">
+            <div class="panel-title">
+              <div>
+                <p class="eyebrow">Momentos</p>
+                <h2>Recuerdos de la sala</h2>
+              </div>
+            </div>
+            <div class="upload-area">
+              <label for="fileInput">
+                <strong>Subir una foto</strong>
+                <span>Previsualiza un recuerdo antes de compartirlo.</span>
+              </label>
+              <input type="file" id="fileInput" accept="image/*">
+            </div>
+            <div id="preview" class="preview"></div>
+          </section>
+        </div>
+
+        <aside class="right-rail" aria-label="Plan y actividades">
+          <section class="rail-card">
+            <p class="eyebrow">Proximo plan</p>
+            <h2 id="planTitle">Pelicula y llamada</h2>
+            <p id="planDescription">Viernes, 9:00 PM. Elijan algo corto y preparen snacks.</p>
+          </section>
+
+          <section class="rail-card">
+            <div class="section-heading">
+              <h3>Ideas para hoy</h3>
+              <button class="icon-button" id="shuffleIdea" type="button" title="Nueva idea" aria-label="Nueva idea">+</button>
+            </div>
+            <ul class="idea-list" id="ideaList">
+              <li>Responder 5 preguntas random</li>
+              <li>Jugar una partida rapida</li>
+              <li>Elegir una cancion para ambos</li>
+            </ul>
+          </section>
+
+          <section class="rail-card mood-card">
+            <p class="eyebrow">Estado</p>
+            <div class="mood-row">
+              <button class="mood active" type="button" data-mood="Tranquilo">Tranquilo</button>
+              <button class="mood" type="button" data-mood="Feliz">Feliz</button>
+              <button class="mood" type="button" data-mood="Te extrano">Te extrano</button>
+            </div>
+            <p class="mood-output">Hoy te sientes: <strong id="moodOutput">Tranquilo</strong></p>
+          </section>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
